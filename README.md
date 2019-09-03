@@ -1,0 +1,2 @@
+# CashlessConsumerTools
+キャッシュレス消費者還元事業のWebサイトで公開されているPDFをCSVにコンバートするツールです。
