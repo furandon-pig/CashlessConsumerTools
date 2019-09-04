@@ -23,6 +23,8 @@
  * SUCH DAMAGE.
  */
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -131,6 +133,20 @@ public class CashlessConsumerTools {
         BufferedReader br = new BufferedReader(fr);
         String line;
 
+        // PDFで市区町村名と店名がくっついてパースされるデータを修正するためのデータ。
+        Pattern patterns[] = {
+                Pattern.compile("^(.*さいたま市浦和区)(.*)"),
+                Pattern.compile("^(.*さいたま市岩槻区)(.*)"),
+                Pattern.compile("^(.*さいたま市見沼区)(.*)"),
+                Pattern.compile("^(.*さいたま市大宮区)(.*)"),
+                Pattern.compile("^(.*さいたま市中央区)(.*)"),
+                Pattern.compile("^(.*横浜市保土ケ谷区)(.*)"),
+                Pattern.compile("^(.*北九州市小倉南区)(.*)"),
+                Pattern.compile("^(.*北九州市小倉北区)(.*)"),
+                Pattern.compile("^(.*北九州市八幡西区)(.*)"),
+                Pattern.compile("^(.*北九州市八幡東区)(.*)")
+        };
+
         String oldstr = "";
         String curstr = "";
 
@@ -161,6 +177,14 @@ public class CashlessConsumerTools {
                 line = line.replaceFirst(",", ""); // 連番に付いているカンマ(",")を除去する。
                 line = line.replaceFirst("%$", ""); //
                 StringBuffer line2 = new StringBuffer(line);
+
+                for (Pattern pattern : patterns) {
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.matches()) {
+                        // 市区町村名と店名がくっついているケースにマッチしたら空白で分離した文字列にする。
+                        line2 = new StringBuffer(matcher.group(1) + " " + matcher.group(2));
+                    }
+                }
 
                 switch (current_data_type) {
                     case KOTEI_TENPO: // 「①固定店舗（EC・通信販売を除く）」の場合は6カラム
