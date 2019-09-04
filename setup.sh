@@ -20,3 +20,7 @@ if [ ! -f libs/commons-logging-1.2.jar ]; then
   mv commons-logging-1.2/commons-logging-1.2.jar ../lib
   popd
 fi
+
+# コンパイル後の*.classを出力するディレクトリを作成。
+mkdir -p out
+
