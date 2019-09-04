@@ -1,17 +1,17 @@
 #!/bin/sh
 
-# $B%-%c%C%7%e%l%9>CHq<T4T85;v6H$N(BWeb$B%5%$%H$+$i(BPDF$B$r%@%&%s%m!<%I$9$k!#(B
+# キャッシュレス消費者還元事業のWebサイトからPDFをダウンロードする。
 curl -L -O https://cashless.go.jp/assets/doc/kameiten_touroku_list.pdf
 
-# PDF$B=hM}%i%$%V%i%j$rMQ0U$9$k!#(B
+# PDF処理ライブラリを用意する。
 [ ! -d lib ] && mkdir lib
 
-# PDFBox$B$r%@%&%s%m!<%I$9$k!#(B
+# PDFBoxをダウンロードする。
 [ ! -f lib/pdfbox-2.0.16.jar  ] && curl -L -o lib/pdfbox-2.0.16.jar  http://ftp.kddilabs.jp/infosystems/apache/pdfbox/2.0.16/pdfbox-2.0.16.jar
 [ ! -f lib/fontbox-2.0.16.jar ] && curl -L -o lib/fontbox-2.0.16.jar http://ftp.jaist.ac.jp/pub/apache/pdfbox/2.0.16/fontbox-2.0.16.jar
 
-# PDFBox$B$O(BApache Commons$B$bI,MW$H$9$k$N$G$3$A$i$b%@%&%s%m!<%I$9$k!#(B
-# tar$B$G8G$a$i$l$?>uBV$GG[I[$5$l$F$$$k$N$G!"I,MW$J(BJar$B%U%!%$%k$N$_(Blib$B%G%#%l%/%H%j$K%3%T!<$9$k!#(B
+# PDFBoxはApache Commonsも必要とするのでこちらもダウンロードする。
+# tarで固められた状態で配布されているので、必要なJarファイルのみlibディレクトリにコピーする。
 if [ ! -f libs/commons-logging-1.2.jar ]; then
   mkdir -p tmp
   pushd tmp
@@ -21,6 +21,6 @@ if [ ! -f libs/commons-logging-1.2.jar ]; then
   popd
 fi
 
-# $B%3%s%Q%$%k8e$N(B*.class$B$r=PNO$9$k%G%#%l%/%H%j$r:n@.!#(B
+# コンパイル後の*.classを出力するディレクトリを作成。
 mkdir -p out
 
