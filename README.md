@@ -12,7 +12,7 @@
 $ git clone https://github.com/furandon-pig/CashlessConsumerTools.git
 $ cd CashlessConsumerTools
 $ ./setup.sh
-$ export CLASSPATH=src:lib/pdfbox-2.0.16.jar:lib/fontbox-2.0.16.jar:lib/commons-logging-1.2.jar
+$ export CLASSPATH=out/production/CashlessConsumerTools:src:lib/pdfbox-2.0.16.jar:lib/fontbox-2.0.16.jar:lib/commons-logging-1.2.jar
 $ javac src/CashlessConsumerTools.java
 $ java CashlessConsumerTools
 ```
