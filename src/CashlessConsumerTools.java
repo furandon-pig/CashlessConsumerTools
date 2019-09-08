@@ -131,7 +131,7 @@ public class CashlessConsumerTools {
     public void parseText(String text_file) throws IOException {
         FileReader fr = new FileReader(text_file);
         BufferedReader br = new BufferedReader(fr);
-        String line;
+        String readLine;
 
         // PDFで市区町村名と店名がくっついてパースされるデータを修正するためのデータ。
         Pattern patterns[] = {
@@ -151,21 +151,21 @@ public class CashlessConsumerTools {
         String curstr = "";
 
         int current_data_type = NOT_PARSE_YET;
-        while ((line = br.readLine()) != null) {
-            line = line.toString();
+        while ((readLine = br.readLine()) != null) {
+            String line = readLine.toString();
 
-            if (line.matches("①固定店舗（EC・通信販売を除く） 令和元年\\d+月\\d+日　現在")) {
+            if (line.matches("②固定店舗（EC・通信販売を除く） 令和元年\\d+月\\d+日　現在")) {
                 current_data_type = KOTEI_TENPO;
-                curstr = "①固定店舗（EC・通信販売を除く）";
-            } else if (line.matches("②EC・通信販売（楽天市場） 令和元年\\d+月\\d+日　現在")) {
+                curstr = "②固定店舗（EC・通信販売を除く）";
+            } else if (line.matches("③EC・通信販売（楽天市場） 令和元年\\d+月\\d+日　現在")) {
                 current_data_type = EC_RAKUTEN;
-                curstr = "②EC・通信販売（楽天市場）";
-            } else if (line.matches("③EC・通信販売（Yahoo!ショッピング） 令和元年\\d+月\\d+日　現在")) {
+                curstr = "③EC・通信販売（楽天市場）";
+            } else if (line.matches("④EC・通信販売（Yahoo!ショッピング） 令和元年\\d+月\\d+日　現在")) {
                 current_data_type = EC_YAHOO;
-                curstr = "③EC・通信販売（Yahoo!ショッピング）";
-            } else if (line.matches("④EC・通信販売（その他ＥＣサイト） 令和元年\\d+月\\d+日　現在")) {
+                curstr = "④EC・通信販売（Yahoo!ショッピング）";
+            } else if (line.matches("⑤EC・通信販売（その他ＥＣサイト） 令和元年\\d+月\\d+日　現在")) {
                 current_data_type = EC_OTHER;
-                curstr = "④EC・通信販売（その他ＥＣサイト）";
+                curstr = "⑤EC・通信販売（その他ＥＣサイト）";
             }
 
             if (! oldstr.equals(curstr)) {
